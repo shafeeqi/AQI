@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AQI to Cigarettes Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+
+        #converter-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 400px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        p#result {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        p#aqi-description {
+            margin-top: 10px;
+        }
+
+        footer {
+            color: #777;
+            margin-top: 20px;
+            text-decoration: underline;
+        }
+
+        p#note {
+            font-size: 14px;
+            color: #777;
+            text-decoration: none;
+        }
+
+        a {
+            text-decoration: underline;
+            color: #007BFF;
+        }
+    </style>
+</head>
+<body>
+    <div id="converter-container">
+        <h1>AQI to Cigarettes Converter</h1>
+
+        <form id="converter-form">
+            <label for="aqi">AQI (Air Quality Index):</label>
+            <input type="number" id="aqi" min="0" required><br>
+
+            <label for="hours">Exposure Duration (hours):</label>
+            <input type="number" id="hours" min="0" required><br>
+
+            <button type="button" onclick="calculateCigarettes()">Calculate</button>
+        </form>
+
+        <p id="note">
+            One AQI corresponds to a concentration of <a href="https://www.airnow.gov/aqi/aqi-calculator/">0.2 μg/m³</a>, while a single cigarette contains a concentration of <a href="http://berkeleyearth.org/archive/air-pollution-and-cigarette-equivalence/">22 μg/m³</a> if someone is exposed to it over a 24-hour period.
+        </p>
+
+        <p id="result"></p>
+        <p id="aqi-description"></p>
+    </div>
+
+    <footer>
+        Developed by <a href="http://shafeeq.me">Shafeeq Gigyani</a>
+    </footer>
+
+    <script>
+        function calculateCigarettes() {
+            var aqi = parseFloat(document.getElementById('aqi').value);
+            var hours = parseFloat(document.getElementById('hours').value);
+
+            var equivalentCigarettes = (aqi / 72) * (hours / 24);
+
+            var resultElement = document.getElementById('result');
+            resultElement.innerHTML = "Equivalent Cigarettes: " + equivalentCigarettes.toFixed(2);
+
+            // Determine AQI color and change text color accordingly
+            var textColor;
+            if (aqi >= 0 && aqi <= 50) {
+                textColor = "green";
+            } else if (aqi <= 100) {
+                textColor = "yellow";
+            } else if (aqi <= 150) {
+                textColor = "orange";
+            } else if (aqi <= 200) {
+                textColor = "red";
+            } else if (aqi <= 300) {
+                textColor = "purple";
+            } else {
+                textColor = "maroon";
+            }
+
+            resultElement.style.color = textColor;
+        }
+    </script>
+</body>
+</html>
